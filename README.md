@@ -80,7 +80,6 @@ cd my-fullstack-app
 ### 🔧 2. Install dependencies:
 ```bash
 npx nx@latest init
-npm install
 ```
 
 ### 🔧 3. Run the app:
