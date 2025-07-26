@@ -1,0 +1,78 @@
+<div class="min-h-screen flex flex-col bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+  <!-- 🔥 Navbar -->
+  <nav class="bg-white/80 backdrop-blur-xl border-b border-white/30 shadow-md sticky top-0 z-[60]">
+    <div class="max-w-5xl mx-auto px-6 py-3 flex justify-between items-center">
+      <!-- Brand -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-extrabold shadow-md">
+          M
+        </div>
+        <h1 class="text-2xl font-extrabold text-gray-800">MyApp</h1>
+      </div>
+
+      <!-- User + Logout -->
+      <div class="flex items-center gap-4">
+        <div *ngIf="user$ | async as user" class="flex items-center gap-2 bg-white/60 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white flex items-center justify-center font-bold">
+            {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+          </div>
+          <span class="font-semibold text-gray-700 hidden sm:inline">{{ user.firstName }}</span>
+        </div>
+        <button 
+          (click)="onLogout()"
+          class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium shadow-md transition transform hover:scale-105">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow relative">
+    <div class="max-w-2xl mx-auto px-4 py-8">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Home Feed</h1>
+        <p class="text-gray-500">See what's happening with everyone</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="(posts$ | async)?.length === 0" class="bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-lg text-center">
+        <p class="text-gray-500">No posts yet. Be the first to create one!</p>
+      </div>
+
+      <!-- Posts Feed -->
+      <div *ngFor="let post of posts$ | async" class="bg-white/80 backdrop-blur-md rounded-2xl p-5 shadow-lg mb-6 hover:shadow-xl transition">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white flex items-center justify-center font-bold text-lg shadow">
+            {{ post.user.firstName.charAt(0) }}{{ post.user.lastName.charAt(0) }}
+          </div>
+          <div>
+            <p class="font-semibold text-gray-800">{{ post.user.firstName }} {{ post.user.lastName }}</p>
+            <p class="text-gray-400 text-sm">{{ post.createdAt | date:'short' }}</p>
+          </div>
+        </div>
+        <p class="text-gray-700 leading-relaxed">{{ post.content }}</p>
+      </div>
+    </div>
+
+    <!-- Floating Create Post Button -->
+    <button
+      (click)="showCreateForm = !showCreateForm"
+      class="fixed bottom-6 right-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-xl text-3xl transition transform hover:scale-110">
+      +
+    </button>
+
+    <!-- Popup Form -->
+    <div *ngIf="showCreateForm" class="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
+      <div class="bg-white rounded-2xl p-6 shadow-2xl w-full max-w-md animate-fadeIn">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Create a Post</h2>
+        <textarea [(ngModel)]="newContent" class="w-full border rounded-lg p-3 mb-4 focus:ring-2 focus:ring-indigo-400 focus:outline-none" rows="4" placeholder="What's on your mind?"></textarea>
+        <div class="flex justify-end gap-2">
+          <button (click)="showCreateForm = false" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition">Cancel</button>
+          <button (click)="createPost()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow transition">Post</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
