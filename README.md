@@ -38,7 +38,7 @@ Build an **end-to-end responsive web application** that:
 ## ⭐ Optional Enhancements (Bounty Points) ✅ *Implemented*
 - **Forgot Password:** ✅ Email-based password reset flow with secure token link.
 - **Atlas MongoDB:** ✅ Database hosted on MongoDB Atlas for online access.
-- **List data for logged in user:** ✅ Listing users posts in the home page.
+- **List data for logged-in Users:** ✅ Listing users posts in the home page.
 
 ---
 
